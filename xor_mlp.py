@@ -44,16 +44,21 @@ def train(epochs: int = 1000, learning_rate: int = 0.5) -> None:
         dw_output = [0, 0]
         db_output = 0
 
-        for i, (input, target) in enumerate(zip(inputs, targets)):
+        for i, (x, target) in enumerate(zip(inputs, targets)):
             prediction = a_output[i]
             d_error = (prediction - target) * prediction * (1 - prediction)
-            dw_output = [dw + (d_error * x) for dw, x in zip(dw_output, input)]
+            dw_output = [dw + (d_error * h_a) for dw, h_a in zip(dw_output, a_hidden[i])]
+
+            db_output += d_error
 
 def sigmoid(z: float) -> float:
     return 1 / (1 + math.exp(-z))
 
 def relu(z: float) -> float:
     return z if z > 0 else 0
+
+def drelu(z: float) -> float:
+    return 1 if z > 0 else 0
 
 def predict() -> list[int]:
     pass
