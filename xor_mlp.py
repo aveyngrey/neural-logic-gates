@@ -13,6 +13,9 @@ bias_output = 0
 def train(epochs: int = 1000, learning_rate: int = 0.5) -> None:
     pass
 
+def sigmoid(z: float) -> float:
+    return 1 / (1 + math.exp(-z))
+
 def predict() -> list[int]:
     pass
 
