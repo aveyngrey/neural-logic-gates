@@ -60,6 +60,14 @@ def train(epochs: int = 1000, learning_rate: int = 0.5) -> None:
             db_hidden = [db + (d_error * weights_output[j] * d_relu(z_hidden[i][j]))
                          for j, db in enumerate(db_hidden)]
 
+        weights_output = [weight_o - (learning_rate * dw_o)
+                          for weight_o, dw_o in zip(weights_output, dw_output)]
+        bias_output -= learning_rate * db_output
+        weights_hidden = [[weight_h - (learning_rate * dw_h)
+                           for weight_h, dw_h in zip(neuron, dw_h_row)] 
+                           for neuron, dw_h_row in zip(weights_hidden, dw_hidden)]
+        biases_hidden = [bias_h - (learning_rate * db_h)
+                         for bias_h, db_h in zip(biases_hidden, db_hidden)]
         
 
 def sigmoid(z: float) -> float:
