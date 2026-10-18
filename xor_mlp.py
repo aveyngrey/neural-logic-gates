@@ -33,7 +33,10 @@ def train(epochs: int = 1000, learning_rate: int = 0.5) -> None:
                     for input in inputs]
         print(f"Z output: {z_output}")
         print("--------------------------------------------------------")
-        
+        a_output = [sigmoid(z) for z in z_output]
+        print(f"A output: {a_output}")
+        print("--------------------------------------------------------")
+
 
 def sigmoid(z: float) -> float:
     return 1 / (1 + math.exp(-z))
