@@ -40,7 +40,7 @@ def train(epochs: int = 1000, learning_rate: int = 0.5) -> None:
 
         dw_hidden = [[0, 0], # neuron 1
                      [0, 0]] # neuron 2
-        db_hidden = [0, 0]
+        db_hidden = [0, 0] # nueron 1, neuron 2
 
         dw_output = [0, 0]
         db_output = 0
@@ -48,13 +48,17 @@ def train(epochs: int = 1000, learning_rate: int = 0.5) -> None:
         for i, (x, target) in enumerate(zip(inputs, targets)):
             prediction = a_output[i]
             d_error = (prediction - target) * prediction * (1 - prediction)
+            
             dw_output = [dw + (d_error * h_a) for dw, h_a in zip(dw_output, a_hidden[i])]
 
             db_output += d_error
 
             dw_hidden = [[dw + (d_error * weights_output[k] * d_relu(z_hidden[i][k]) * input[j])
-                         for j, (dw) in enumerate(weights)] 
-                         for k, weights in enumerate(weights_hidden)]
+                         for j, dw in enumerate(weights)] 
+                         for k, weights in enumerate(dw_hidden)]
+
+            db_hidden = [db + (d_error * weights_output[j] * d_relu(z_hidden[i][j]))
+                         for j, db in enumerate(db_hidden)]
 
 def sigmoid(z: float) -> float:
     return 1 / (1 + math.exp(-z))
