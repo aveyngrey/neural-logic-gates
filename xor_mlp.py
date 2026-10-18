@@ -10,7 +10,7 @@ weights_output = [random.uniform(-1, 1) for _ in range(2)]
 biases_hidden = [0, 0]
 bias_output = 0
 
-def train(epochs: int = 1000, learning_rate: int = 0.5) -> None:
+def train(epochs: int = 1000, learning_rate: float = 0.1) -> None:
     global weights_hidden, weights_output, biases_hidden, bias_output
     for epoch in range(1, epochs + 1):
         z_hidden = [] # row corresponds to input, col corresponds to neuron
@@ -25,13 +25,13 @@ def train(epochs: int = 1000, learning_rate: int = 0.5) -> None:
             z_hidden.append(z)
         print(f"Z hidden: {z_hidden}")
         print("--------------------------------------------------------")
-        a_hidden = [[relu(x) for x in z] for z in z_hidden]
+        a_hidden = [[sigmoid(x) for x in z] for z in z_hidden]
         print(f"A hidden: {a_hidden}")
         print("--------------------------------------------------------")
-        z_output = [weights_output[0] * input[0] + 
-                    weights_output[1] * input[1] +
+        z_output = [weights_output[0] * a_h_row[0] + 
+                    weights_output[1] * a_h_row[1] +
                     bias_output
-                    for input in inputs]
+                    for a_h_row in a_hidden]
         print(f"Z output: {z_output}")
         print("--------------------------------------------------------")
         a_output = [sigmoid(z) for z in z_output]
@@ -53,11 +53,11 @@ def train(epochs: int = 1000, learning_rate: int = 0.5) -> None:
 
             db_output += d_error
 
-            dw_hidden = [[dw + (d_error * weights_output[k] * d_relu(z_hidden[i][k]) * input[j])
+            dw_hidden = [[dw + (d_error * weights_output[k] * (a_hidden[i][k] * (1 - a_hidden[i][k])) * input[j])
                          for j, dw in enumerate(weights)] 
                          for k, weights in enumerate(dw_hidden)]
 
-            db_hidden = [db + (d_error * weights_output[j] * d_relu(z_hidden[i][j]))
+            db_hidden = [db + (d_error * weights_output[j] * (a_hidden[i][j] * (1 - a_hidden[i][j])))
                          for j, db in enumerate(db_hidden)]
 
         weights_output = [weight_o - (learning_rate * dw_o)
@@ -73,21 +73,37 @@ def train(epochs: int = 1000, learning_rate: int = 0.5) -> None:
 def sigmoid(z: float) -> float:
     return 1 / (1 + math.exp(-z))
 
-def relu(z: float) -> float:
-    return z if z > 0 else 0
-
-def d_relu(z: float) -> float:
-    return 1 if z > 0 else 0
-
 def predict() -> list[int]:
-    pass
+    predictions = []
+    for input in inputs:
+        hidden_neuron1_z = input[0] * weights_hidden[0][0] + \
+                           input[1] * weights_hidden[0][1] + \
+                           biases_hidden[0]
+
+        hidden_neuron2_z = input[0] * weights_hidden[1][0] + \
+                           input[1] * weights_hidden[1][1] + \
+                           biases_hidden[1]
+
+        hidden_neuron1_a = sigmoid(hidden_neuron1_z)
+        hidden_neuron2_a = sigmoid(hidden_neuron2_z)
+
+        output_neuron_z = hidden_neuron1_a * weights_output[0] + \
+                          hidden_neuron2_a * weights_output[1] + \
+                          bias_output
+
+        output_neuron_a = sigmoid(output_neuron_z)
+        prediction = 1 if output_neuron_a >= 0.5 else 0
+        predictions.append(prediction)
+                         
+    return predictions
 
 def main() -> None:
     print("Initial Weights: \n" \
          f"Hidden Weights: {weights_hidden} \n" \
          f"Output Weights: {weights_output} \n" \
           "--------------------------------------------------------")
-    train(epochs=1)
+    train(1000, 1)
+    print(predict())
 
 if __name__ == "__main__":
     main()
