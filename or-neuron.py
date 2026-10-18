@@ -13,7 +13,7 @@ def init() -> None:
 def sigmoid(z: list[float]) -> float:
     return [1 / (1 + math.exp(-x)) for x in z]
 
-def train(epochs=1000) -> None:
+def train(epochs=1000, learning_rate=0.1) -> None:
     global weights, bias
     for epoch in range(1, epochs + 1):
         z = [x[0] * weights[0] + x[1] * weights[1] + bias for x in inputs]
@@ -39,9 +39,9 @@ def train(epochs=1000) -> None:
             dw2 += d_cost * da * input[1]
             db += d_cost * da
 
-        weights[0] -= 0.1 * (dw1 / 4)
-        weights[1] -= 0.1 * (dw2 / 4)
-        bias -= 0.1 * (db / 4)
+        weights[0] -= learning_rate * (dw1 / 4)
+        weights[1] -= learning_rate * (dw2 / 4)
+        bias -= learning_rate * (db / 4)
 
 def predict() -> list[int]:
     predictions = []
@@ -63,7 +63,7 @@ def main() -> None:
     print("Initial Predictions:")
     predict()
     print("\n")
-    train(2000)
+    train(epochs=100, learning_rate=100)
     print("\n")
     print("Final Predictions")
     predict()
