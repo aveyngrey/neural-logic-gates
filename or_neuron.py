@@ -3,7 +3,7 @@ import random
 
 inputs = ((0, 0), (0, 1), (1, 0), (1, 1))
 targets = (0, 1, 1, 1)
-weights_hidden = []
+weights = []
 bias = 0
 
 def init() -> None:

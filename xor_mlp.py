@@ -11,6 +11,7 @@ biases_hidden = [0, 0]
 bias_output = 0
 
 def train(epochs: int = 1000, learning_rate: int = 0.5) -> None:
+    global weights_hidden, weights_output, biases_hidden, bias_output
     for epoch in range(1, epochs + 1):
         z_hidden = []
         for input in inputs:
@@ -37,6 +38,16 @@ def train(epochs: int = 1000, learning_rate: int = 0.5) -> None:
         print(f"A output: {a_output}")
         print("--------------------------------------------------------")
 
+        dw_hidden = [[0, 0], [0, 0]] 
+        db_hidden = [0, 0]
+
+        dw_output = [0, 0]
+        db_output = 0
+
+        for i, (input, target) in enumerate(zip(inputs, targets)):
+            prediction = a_output[i]
+            d_error = (prediction - target) * prediction * (1 - prediction)
+            dw_output = [dw + (d_error * x) for dw, x in zip(dw_output, input)]
 
 def sigmoid(z: float) -> float:
     return 1 / (1 + math.exp(-z))
