@@ -60,6 +60,8 @@ def train(epochs: int = 1000, learning_rate: int = 0.5) -> None:
             db_hidden = [db + (d_error * weights_output[j] * d_relu(z_hidden[i][j]))
                          for j, db in enumerate(db_hidden)]
 
+        
+
 def sigmoid(z: float) -> float:
     return 1 / (1 + math.exp(-z))
 
