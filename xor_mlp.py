@@ -27,7 +27,13 @@ def train(epochs: int = 1000, learning_rate: int = 0.5) -> None:
         a_hidden = [[relu(x) for x in z] for z in z_hidden]
         print(f"A hidden: {a_hidden}")
         print("--------------------------------------------------------")
-                
+        z_output = [weights_output[0] * input[0] + 
+                    weights_output[1] * input[1] +
+                    bias_output
+                    for input in inputs]
+        print(f"Z output: {z_output}")
+        print("--------------------------------------------------------")
+        
 
 def sigmoid(z: float) -> float:
     return 1 / (1 + math.exp(-z))
