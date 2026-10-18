@@ -9,14 +9,13 @@ bias = 0
 def init() -> None:
     global weights
     weights = [random.uniform(-1, 1), random.uniform(-1, 1)]
-    print(f"Initial weights: {weights}")
 
 def sigmoid(z: list[float]) -> float:
     return [1 / (1 + math.exp(-x)) for x in z]
 
 def train(epochs=1000) -> None:
     global weights, bias
-    for epoch in range(1, epochs):
+    for epoch in range(1, epochs + 1):
         z = [x[0] * weights[0] + x[1] * weights[1] + bias for x in inputs]
         a = sigmoid(z)
         cost = sum((prediction - target) ** 2
@@ -47,19 +46,26 @@ def train(epochs=1000) -> None:
 def predict() -> list[int]:
     predictions = []
     for input in inputs:
-        z = weights[0] * input[0] + weights[1] + input[1] + bias
+        z = weights[0] * input[0] + weights[1] * input[1] + bias
         prediction = 1 if z >= 0.5 else 0
         predictions.append(prediction)
         print(f"Input: {input}")
         print(f"Prediction: {prediction}")
         print("----------------------------")
+
+    if predictions == [0, 1, 1, 1]:
+        print("IT WORKS!!!!!!!!!!!")
     return predictions
 
 def main() -> None:
     print("-----------------------------------------------------")
     init()
+    print("Initial Predictions:")
     predict()
-    train()
+    print("\n")
+    train(2000)
+    print("\n")
+    print("Final Predictions")
     predict()
 
 if __name__ == "__main__":
