@@ -7,8 +7,8 @@ targets = (0, 1, 1, 0)
 weights_hidden = [[random.uniform(-1, 1) for _ in range(2)] for _ in range(2)]
 weights_output = [random.uniform(-1, 1) for _ in range(2)]
 
-biases_hidden = [0, 0]
-bias_output = 0
+biases_hidden = [0.1, 0.1]
+bias_output = 0.1
 
 def train(epochs: int = 1000, learning_rate: float = 0.1) -> None:
     global weights_hidden, weights_output, biases_hidden, bias_output
@@ -94,7 +94,7 @@ def main() -> None:
          f"Hidden Weights: {weights_hidden} \n" \
          f"Output Weights: {weights_output} \n" \
           "--------------------------------------------------------")
-    train(1000, 1)
+    train(epochs=5000, learning_rate=.5)
     print("After training: \n" \
          f"Hidden Weights: {weights_hidden} \n" \
          f"Hidden Biases: {biases_hidden} \n\n" \
