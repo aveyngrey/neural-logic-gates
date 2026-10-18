@@ -13,7 +13,7 @@ bias_output = 0
 def train(epochs: int = 1000, learning_rate: int = 0.5) -> None:
     global weights_hidden, weights_output, biases_hidden, bias_output
     for epoch in range(1, epochs + 1):
-        z_hidden = []
+        z_hidden = [] # row corresponds to input, col corresponds to neuron
         for input in inputs:
             z = []
             z.append(weights_hidden[0][0] * input[0] +
@@ -38,7 +38,8 @@ def train(epochs: int = 1000, learning_rate: int = 0.5) -> None:
         print(f"A output: {a_output}")
         print("--------------------------------------------------------")
 
-        dw_hidden = [[0, 0], [0, 0]] 
+        dw_hidden = [[0, 0], # neuron 1
+                     [0, 0]] # neuron 2
         db_hidden = [0, 0]
 
         dw_output = [0, 0]
@@ -51,13 +52,17 @@ def train(epochs: int = 1000, learning_rate: int = 0.5) -> None:
 
             db_output += d_error
 
+            dw_hidden = [[dw + (d_error * weights_output[k] * d_relu(z_hidden[i][k]) * input[j])
+                         for j, (dw) in enumerate(weights)] 
+                         for k, weights in enumerate(weights_hidden)]
+
 def sigmoid(z: float) -> float:
     return 1 / (1 + math.exp(-z))
 
 def relu(z: float) -> float:
     return z if z > 0 else 0
 
-def drelu(z: float) -> float:
+def d_relu(z: float) -> float:
     return 1 if z > 0 else 0
 
 def predict() -> list[int]:
