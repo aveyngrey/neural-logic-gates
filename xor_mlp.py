@@ -22,15 +22,18 @@ def train(epochs: int = 1000, learning_rate: int = 0.5) -> None:
                      weights_hidden[1][1] * input[1] +
                      biases_hidden[1])
             z_hidden.append(z)
-    print(f"Z hidden: {z_hidden}")
-    print("--------------------------------------------------------")
+        print(f"Z hidden: {z_hidden}")
+        print("--------------------------------------------------------")
+        a_hidden = [[relu(x) for x in z] for z in z_hidden]
+        print(f"A hidden: {a_hidden}")
+        print("--------------------------------------------------------")
                 
 
 def sigmoid(z: float) -> float:
     return 1 / (1 + math.exp(-z))
 
 def relu(z: float) -> float:
-    return 1 if z > 0 else 0
+    return z if z > 0 else 0
 
 def predict() -> list[int]:
     pass
