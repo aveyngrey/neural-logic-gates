@@ -3,7 +3,7 @@ import random
 
 inputs = ((0, 0), (0, 1), (1, 0), (1, 1))
 targets = (0, 1, 1, 1)
-weights = []
+weights_hidden = []
 bias = 0
 
 def init() -> None:
@@ -13,7 +13,7 @@ def init() -> None:
 def sigmoid(z: list[float]) -> float:
     return [1 / (1 + math.exp(-x)) for x in z]
 
-def train(epochs=1000, learning_rate=0.1) -> None:
+def train(epochs: int = 1000, learning_rate: int = 0.1) -> None:
     global weights, bias
     for epoch in range(1, epochs + 1):
         z = [x[0] * weights[0] + x[1] * weights[1] + bias for x in inputs]
@@ -63,7 +63,7 @@ def main() -> None:
     print("Initial Predictions:")
     predict()
     print("\n")
-    train(epochs=100, learning_rate=100)
+    train(epochs=500, learning_rate=10)
     print("\n")
     print("Final Predictions")
     predict()
