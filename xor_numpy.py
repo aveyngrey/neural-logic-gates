@@ -12,9 +12,10 @@ biases_hidden = np.array([[0.1], [0.1]])
 bias_output = np.array([[0.1]])
 
 def train(epochs: int = 1000, learning_rate: float = 0.5) -> None:
-    for epoch in range(1):
+    global weights_hidden, biases_hidden, weights_output, bias_output
+    for epoch in range(epochs):
         dw_hidden = np.zeros((2, 2))
-        db_hidden = np.zeros((1, 2))
+        db_hidden = np.zeros((2, 1))
 
         dw_output = np.zeros((1, 2))
         db_output = 0
@@ -32,7 +33,16 @@ def train(epochs: int = 1000, learning_rate: float = 0.5) -> None:
             d_error = (prediction - target) * (prediction * (1 - prediction))
             
             dw_hidden += (d_error * weights_output * a_hidden * (1 - a_hidden)).T @ x
+            db_hidden += (d_error * weights_output * a_hidden * (1 - a_hidden)).T
 
+            dw_output += d_error * a_hidden
+            db_output += d_error
+
+        weights_hidden -= dw_hidden
+        biases_hidden -= db_hidden
+
+        weights_output -= dw_output
+        bias_output -= db_output
             
 
 def sigmoid(x: npt.NDArray) -> npt.NDArray:
