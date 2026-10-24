@@ -4,8 +4,8 @@ import random
 inputs = ((0, 0), (0, 1), (1, 0), (1, 1))
 targets = (0, 1, 1, 0)
 
-weights_hidden = [[random.uniform(-1, 1) for _ in range(2)] for _ in range(2)]
-weights_output = [random.uniform(-1, 1) for _ in range(2)]
+weights_hidden = [[random.uniform(-math.sqrt(1/2), math.sqrt(1/2)) for _ in range(2)] for _ in range(2)]
+weights_output = [random.uniform(-math.sqrt(1/2), math.sqrt(1/2)) for _ in range(2)]
 
 biases_hidden = [0.1, 0.1]
 bias_output = 0.1
