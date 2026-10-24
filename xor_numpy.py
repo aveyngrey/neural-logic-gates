@@ -22,6 +22,9 @@ def train(epochs: int = 1000, learning_rate: float = 0.5) -> None:
         for i, (x, target) in enumerate(zip(inputs, targets)):
             z_hidden = inputs @ weights_hidden.T + biases_hidden.T
 
+def sigmoid(x: npt.NDArray) -> npt.NDArray:
+    return 1 / (1 + np.exp(-x))
+
 def predict() -> list[int]:
     return []
 
