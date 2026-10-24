@@ -26,6 +26,13 @@ def train(epochs: int = 1000, learning_rate: float = 0.5) -> None:
             z_output = a_hidden @ weights_output.T + bias_output
             a_output = sigmoid(z_output)
 
+            prediction = a_output[i]
+            d_error = (prediction - target) * (prediction * (1 - prediction))
+
+            dw_hidden += ((d_error * weights_output * a_hidden[i] * (1 - a_hidden[i])) @ x).T
+
+            
+
 def sigmoid(x: npt.NDArray) -> npt.NDArray:
     return 1 / (1 + np.exp(-x))
 
