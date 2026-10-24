@@ -20,16 +20,18 @@ def train(epochs: int = 1000, learning_rate: float = 0.5) -> None:
         db_output = 0
 
         for i, (x, target) in enumerate(zip(inputs, targets)):
-            z_hidden = inputs @ weights_hidden.T + biases_hidden.T
+            x = x.reshape(1, 2)
+            
+            z_hidden = x @ weights_hidden.T + biases_hidden.T
             a_hidden = sigmoid(z_hidden)
-
+                
             z_output = a_hidden @ weights_output.T + bias_output
             a_output = sigmoid(z_output)
 
-            prediction = a_output[i]
+            prediction = a_output
             d_error = (prediction - target) * (prediction * (1 - prediction))
-
-            dw_hidden += ((d_error * weights_output * a_hidden[i] * (1 - a_hidden[i])) @ x).T
+            
+            dw_hidden += (d_error * weights_output * a_hidden * (1 - a_hidden)).T @ x
 
             
 
