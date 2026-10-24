@@ -7,8 +7,12 @@ targets = np.array([[0], [1], [1], [0]])
 weights_hidden = np.random.uniform(-math.sqrt(1/2), math.sqrt(1/2), (2, 2))
 weights_output = np.random.uniform(-math.sqrt(1/2), math.sqrt(1/2), (1, 2))
 
+biases_hidden = np.zeros((2, 1))
+bias_output = 0
+
 def train(epochs: int = 1000, learning_rate: float = 0.5) -> None:
-    pass
+    for epoch in epochs:
+        pass
 
 def predict() -> list[int]:
     pass
