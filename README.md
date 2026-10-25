@@ -38,7 +38,8 @@ Building this from scratch involved troubleshooting several critical milestones:
 
 Clone the repository, install dependencies (`numpy` and `matplotlib`), and run any script in your terminal using:
 
-git clone https://github.com/your-username/neural-logic-gates.git
+```bash
+git clone [https://github.com/your-username/neural-logic-gates.git](https://github.com/your-username/neural-logic-gates.git)
 cd neural-logic-gates
 pip install numpy matplotlib
 python3 xor_numpy.py
