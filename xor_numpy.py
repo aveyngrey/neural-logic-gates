@@ -38,21 +38,29 @@ def train(epochs: int = 1000, learning_rate: float = 0.5) -> None:
             dw_output += d_error * a_hidden
             db_output += d_error
 
-        weights_hidden -= dw_hidden
-        biases_hidden -= db_hidden
+        weights_hidden -= learning_rate * dw_hidden
+        biases_hidden -= learning_rate * db_hidden
 
-        weights_output -= dw_output
-        bias_output -= db_output
+        weights_output -= learning_rate * dw_output
+        bias_output -= learning_rate * db_output
             
 
 def sigmoid(x: npt.NDArray) -> npt.NDArray:
     return 1 / (1 + np.exp(-x))
 
 def predict() -> list[int]:
-    return []
+    predictions = sigmoid(sigmoid(inputs @ weights_hidden.T + biases_hidden.T) \
+                  @ weights_output.T + bias_output)
+    predictions = predictions.tolist()
+    print(predictions)
+    predictions = [1 if prediction[0] >= 0.5 else 0 for prediction in predictions]
+
+    print(predictions)
+    return predictions
 
 def main() -> None:
-    train()
+    train(epochs=10000, learning_rate=0.2)
+    predict()
 
 if __name__ == "__main__":
     main()
