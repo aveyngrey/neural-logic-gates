@@ -21,7 +21,7 @@ A progressive collection of neural network implementations built completely from
 ---
 
 ## 📈 Training Dynamics
-![Loss Curve](loss_plot.png)
+![Loss Curve](assets/loss_plot.png)
 * **The Plateau Phase:** Early epochs exhibit a flat loss region near `0.125`, where the network initializes symmetrically and navigates local saddle points.
 * **The Convergence Drop:** Once symmetry is broken, gradient descent rapidly accelerates, driving the mean squared error down near zero and consistently yielding the clean XOR truth table (`[0, 1, 1, 0]`).
 
