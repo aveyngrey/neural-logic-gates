@@ -1,6 +1,7 @@
 import numpy as np
 import numpy.typing as npt
 import math
+import matplotlib.pyplot as plt
 
 inputs = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
 targets = np.array([[0], [1], [1], [0]])
@@ -11,14 +12,18 @@ weights_output = np.random.uniform(-math.sqrt(1/2), math.sqrt(1/2), (1, 2))
 biases_hidden = np.array([[0.1], [0.1]])
 bias_output = np.array([[0.1]])
 
+losses = []
+
 def train(epochs: int = 1000, learning_rate: float = 0.5) -> None:
-    global weights_hidden, biases_hidden, weights_output, bias_output
+    global weights_hidden, biases_hidden, weights_output, bias_output, losses
     for epoch in range(epochs):
         dw_hidden = np.zeros((2, 2))
         db_hidden = np.zeros((2, 1))
 
         dw_output = np.zeros((1, 2))
         db_output = 0
+
+        epoch_loss = 0
 
         for i, (x, target) in enumerate(zip(inputs, targets)):
             x = x.reshape(1, 2)
@@ -28,6 +33,8 @@ def train(epochs: int = 1000, learning_rate: float = 0.5) -> None:
                 
             z_output = a_hidden @ weights_output.T + bias_output
             a_output = sigmoid(z_output)
+
+            epoch_loss += 0.5 * ((a_output - target).item() ** 2)
 
             prediction = a_output
             d_error = (prediction - target) * (prediction * (1 - prediction))
@@ -43,6 +50,8 @@ def train(epochs: int = 1000, learning_rate: float = 0.5) -> None:
 
         weights_output -= learning_rate * dw_output
         bias_output -= learning_rate * db_output
+
+        losses.append(epoch_loss / 4)
             
 
 def sigmoid(x: npt.NDArray) -> npt.NDArray:
@@ -61,6 +70,11 @@ def predict() -> list[int]:
 def main() -> None:
     train(epochs=10000, learning_rate=0.2)
     predict()
+    plt.plot(losses)
+    plt.title("Loss")
+    plt.xlabel("Epoch")
+    plt.ylabel("Mean Squared Error")
+    plt.show()
 
 if __name__ == "__main__":
     main()
