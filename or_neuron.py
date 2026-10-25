@@ -10,10 +10,10 @@ def init() -> None:
     global weights
     weights = [random.uniform(-1, 1), random.uniform(-1, 1)]
 
-def sigmoid(z: list[float]) -> float:
+def sigmoid(z: list[float]) -> list[float]:
     return [1 / (1 + math.exp(-x)) for x in z]
 
-def train(epochs: int = 1000, learning_rate: int = 0.1) -> None:
+def train(epochs: int = 1000, learning_rate: float = 0.1) -> None:
     global weights, bias
     for epoch in range(1, epochs + 1):
         z = [x[0] * weights[0] + x[1] * weights[1] + bias for x in inputs]
